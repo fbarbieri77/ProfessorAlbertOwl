@@ -17,13 +17,13 @@ import java.util.stream.IntStream;
 
 public class Owl {
 
-    private TextView owlSays;
-    private VideoView owlDisplays;
+    private final TextView owlSays;
+    private final VideoView owlDisplays;
     private Integer counter;
     private OwlState state;
     private Problem currentProblem;
-    private List<Problem> problems;
-    private Dictionary<String, Uri> owlFile;
+    private final List<Problem> problems;
+    private final Dictionary<String, Uri> owlFile;
 
     public Owl(List<Restriction> levels, TextView text, VideoView video) {
         owlSays = text;
@@ -53,12 +53,7 @@ public class Owl {
                         + R.raw.profowl_yeah4));
 
         owlDisplays.setVideoURI(owlFile.get("Hello"));
-        owlDisplays.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-            }
-        });
+        owlDisplays.setOnPreparedListener(mp -> mp.setLooping(true));
         owlDisplays.start();
     }
 
@@ -82,11 +77,11 @@ public class Owl {
 
     public void nextProblem() {
         counter++;
-        if (counter == problems.stream().count())
+        if (counter == problems.size())
         {
             state = OwlState.Bye;
         }
-        else if (counter > problems.stream().count())
+        else if (counter > problems.size())
         {
             for (Problem p : problems) {
                 p.setSolved(false);
@@ -95,16 +90,20 @@ public class Owl {
             counter = 0;
         }
 
-        if (counter < problems.stream().count())
+        if (counter < problems.size())
         {
             currentProblem = problems.get(counter);
             state = OwlState.Waiting;
         }
     }
 
+    public Boolean gotAnswer() {
+        return currentProblem.hasTried();
+    }
+
     private Boolean isCorrect(Integer answer) {
-        if (currentProblem.hasTried() == false) {
-            currentProblem.setSolved(answer == currentProblem.solution());
+        if (!currentProblem.hasTried()) {
+            currentProblem.setSolved(answer.equals(currentProblem.solution()));
         }
         return currentProblem.solved();
     }
@@ -128,23 +127,31 @@ public class Owl {
         {
             case Yeah:
                 owlSays.setText("Ehhh");
+                owlDisplays.suspend();
                 owlDisplays.setVideoURI(owlFile.get("Yeah"));
+                owlDisplays.start();
                 break;
             case Ohoh:
                 owlSays.setText(String.format("Oh oh...  \u2260 %s", currentProblem.solution()));
+                owlDisplays.suspend();
                 owlDisplays.setVideoURI(owlFile.get("Ohoh"));
+                owlDisplays.start();
                 break;
             case Bye:
                 Integer solvedFinal = Math.toIntExact(problems.stream().filter(Problem::solved).count());
                 Integer notSolvedFinal = counter - solvedFinal;
                 owlSays.setText(String.format("Bye Bye  -  \u2713 %d  :  \u2717 %d", solvedFinal, notSolvedFinal));
+                owlDisplays.suspend();
                 owlDisplays.setVideoURI(owlFile.get("Bye"));
+                owlDisplays.start();
                 break;
             default:
                 Integer solved = Math.toIntExact(problems.stream().filter(Problem::solved).count());
                 Integer notSolved = counter - solved;
                 owlSays.setText(String.format("\u2713 %d  :  \u2717 %d", solved, notSolved));
+                owlDisplays.suspend();
                 owlDisplays.setVideoURI(owlFile.get("Waiting"));
+                owlDisplays.start();
                 break;
         }
     }
@@ -154,6 +161,9 @@ public class Owl {
         return state == OwlState.Bye;
     }
 
+    public Boolean isAwake() {
+        return counter != -1;
+    }
     public String number1()
     {
         return currentProblem.number1().toString();

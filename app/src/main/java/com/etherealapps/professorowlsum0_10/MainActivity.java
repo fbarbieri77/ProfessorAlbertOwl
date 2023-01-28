@@ -1,7 +1,10 @@
 package com.etherealapps.professorowlsum0_10;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,12 +22,11 @@ import model.RestrictionFactory;
 public class MainActivity extends AppCompatActivity {
 
     private Owl albertOwl;
-    private TextView owlGreetings;
-    private VideoView owlVideo;
     private TextView number1;
     private TextView number2;
     private TextView mathOperator;
     private TextView result;
+    private Button clickedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,38 +37,38 @@ public class MainActivity extends AppCompatActivity {
         List<Restriction> levels;
         try {
             levels = restrictionFactory.create();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                 IllegalAccessException | InstantiationException e) {
             throw new RuntimeException(e);
         }
 
-        owlGreetings = (TextView)findViewById(R.id.owlSays);
-        owlVideo = (VideoView)findViewById(R.id.owlVideo);
-        number1 = (TextView)findViewById(R.id.number1);
-        number2 = (TextView)findViewById(R.id.number2);
-        mathOperator = (TextView)findViewById(R.id.mathOperator);
-        result = (TextView)findViewById(R.id.result);
+        TextView owlGreetings = findViewById(R.id.owlSays);
+        VideoView owlVideo = findViewById(R.id.owlVideo);
+        number1 = findViewById(R.id.number1);
+        number2 = findViewById(R.id.number2);
+        mathOperator = findViewById(R.id.mathOperator);
+        result = findViewById(R.id.result);
         albertOwl = new Owl(levels, owlGreetings, owlVideo);
     }
 
     public void sendAnswer(View view) {
-        Button b = (Button)view;
-        String answer = b.getText().toString();
-        albertOwl.checkAnswer(Integer.parseInt(answer));
-        albertOwl.updateOwlState();
+        if (albertOwl.isAwake() && !albertOwl.gotAnswer()) {
+            clickedButton = (Button)view;
+            String answer = clickedButton.getText().toString();
+            clickedButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.material_dynamic_primary60)));
+            albertOwl.checkAnswer(Integer.parseInt(answer));
+            albertOwl.updateOwlState();
+        }
     }
 
     public void onNextButtonClick(View view) {
         albertOwl.nextProblem();
         albertOwl.updateOwlState();
         showProblem();
+        if (clickedButton != null) {
+            clickedButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.material_dynamic_primary20)));
+        }
+
     }
 
     private void showProblem()
