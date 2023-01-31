@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             clickedButton = (Button)view;
             String answer = clickedButton.getText().toString();
             clickedButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.material_dynamic_primary60)));
+            result.setText(answer);
             albertOwl.checkAnswer(Integer.parseInt(answer));
             albertOwl.updateOwlState();
         }
