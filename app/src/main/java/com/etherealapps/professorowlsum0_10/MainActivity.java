@@ -27,9 +27,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView mathOperator;
     private TextView result;
     private Button clickedButton;
+    private Bundle savedInstanceState;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -53,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendAnswer(View view) {
         if (albertOwl.isAwake() && !albertOwl.gotAnswer()) {
+            // convert to local variable if not changing background
             clickedButton = (Button)view;
             String answer = clickedButton.getText().toString();
-            clickedButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.material_dynamic_primary60)));
+         //   clickedButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.material_dynamic_primary60)));
             result.setText(answer);
             albertOwl.checkAnswer(Integer.parseInt(answer));
             albertOwl.updateOwlState();
@@ -66,10 +69,11 @@ public class MainActivity extends AppCompatActivity {
         albertOwl.nextProblem();
         albertOwl.updateOwlState();
         showProblem();
-        if (clickedButton != null) {
+     /*   if (clickedButton != null) {
             clickedButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.material_dynamic_primary20)));
         }
-
+    */
+//    app:backgroundTint="@color/material_dynamic_primary20"
     }
 
     private void showProblem()
