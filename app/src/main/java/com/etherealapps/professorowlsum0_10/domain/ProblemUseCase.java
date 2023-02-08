@@ -14,8 +14,9 @@ import java.util.stream.IntStream;
 //aqui vao as regras de negocio que nao tem haver com tela
 public class ProblemUseCase {
 
-    public void getNextProblem(Owl albertOwl, Integer counter, List<Problem> problems) {
-
+    private Integer counter = -1;
+    public void getNextProblem(Owl albertOwl, List<Problem> problems) {
+        counter += 1;
         if (counter == problems.size()) {
             albertOwl.setState(OwlState.Bye);
         } else if (counter > problems.size()) {
@@ -32,6 +33,7 @@ public class ProblemUseCase {
         }
     }
 
+    public Integer getExecutedProblems() { return counter; }
     public List<Problem> createProblems(List<Restriction> levels) {
         List<Problem> response = new ArrayList<>();
         for (Restriction level : levels) {

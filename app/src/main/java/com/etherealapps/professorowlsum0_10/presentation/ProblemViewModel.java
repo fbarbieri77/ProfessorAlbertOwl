@@ -18,12 +18,9 @@ import java.util.List;
 // aqui vao suas regras de negocio referente a  visualizacao
 public class ProblemViewModel extends ViewModel {
 
-    private Owl albertOwl;
+    private final Owl albertOwl;
     private final List<Problem> problems;
     private final ProblemUseCase problemUseCase;
-
-
-    private Integer counter = -1;
 
     public ProblemViewModel() {
         problemUseCase = new ProblemUseCase();
@@ -58,7 +55,7 @@ public class ProblemViewModel extends ViewModel {
             case Bye:
             case Waiting:
                 Integer solvedFinal = Math.toIntExact(problems.stream().filter(Problem::solved).count());
-                Integer notSolvedFinal = counter - solvedFinal;
+                Integer notSolvedFinal = problemUseCase.getExecutedProblems() - solvedFinal;
                 owlSays.setText(String.format(state.displayText, solvedFinal, notSolvedFinal));
                 owlDisplays.suspend();
                 owlDisplays.setVideoURI(albertOwl.getOwlExpressions().get(state.name()));
@@ -69,7 +66,7 @@ public class ProblemViewModel extends ViewModel {
 
 
     public Boolean isAwake() {
-        return counter != -1;
+        return problemUseCase.getExecutedProblems() != -1;
     }
 
     public Owl getAlbertOwl() {
@@ -77,7 +74,6 @@ public class ProblemViewModel extends ViewModel {
     }
 
     public void nextProblem() {
-        counter++;
-        problemUseCase.getNextProblem(albertOwl, counter, problems);
+        problemUseCase.getNextProblem(albertOwl, problems);
     }
 }

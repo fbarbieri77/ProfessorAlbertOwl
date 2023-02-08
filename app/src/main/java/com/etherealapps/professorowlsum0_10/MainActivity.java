@@ -19,14 +19,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView number2;
     private TextView mathOperator;
     private TextView result;
-    private Button clickedButton;
-    private Bundle savedInstanceState;
     TextView owlGreetings;
     VideoView owlVideo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         problemViewModel = new ViewModelProvider(this).get(ProblemViewModel.class);
@@ -39,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mathOperator = findViewById(R.id.mathOperator);
         result = findViewById(R.id.result);
 
+        owlVideo.setOnPreparedListener(mp -> mp.setLooping(true));
         findViewById(R.id.owlVideo).setOnClickListener(nextVideoListener());
         findViewById(R.id.owlSays).setOnClickListener(nextVideoListener());
     }
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendAnswer(View view) {
         if (problemViewModel.isAwake() && !problemViewModel.getAlbertOwl().gotAnswer()) {
             // convert to local variable if not changing background
-            clickedButton = (Button) view;
+            Button clickedButton = (Button) view;
             String answer = clickedButton.getText().toString();
             //   clickedButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.material_dynamic_primary60)));
             result.setText(answer);
@@ -77,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
     private void showProblem() {
         if (problemViewModel.getAlbertOwl().isTheEnd()) {
             number1.setText("X");
-            number2.setText("?");
-            mathOperator.setText("X");
+            number2.setText("X");
+            mathOperator.setText("?");
             result.setText("??");
         } else {
             number1.setText(problemViewModel.getAlbertOwl().number1());
