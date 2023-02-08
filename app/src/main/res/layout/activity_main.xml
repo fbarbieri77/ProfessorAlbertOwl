@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,26 +9,35 @@
 
     <VideoView
         android:id="@+id/owlVideo"
-        android:layout_width="208dp"
+        android:layout_width="wrap_content"
         android:layout_height="214dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintStart_toEndOf="@id/guidelineHorizontalStart"
+        app:layout_constraintEnd_toEndOf="@id/guidelineHorizontalEnd"
+        app:layout_constraintTop_toBottomOf="@id/guidelineVertical"
+        />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.06" />
 
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="203dp"
-        android:layout_height="218dp"
-        android:background="@android:color/transparent"
-        android:onClick="onNextButtonClick"
-        android:text="@string/next"
-        android:textColor="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="@+id/owlVideo"
-        app:layout_constraintTop_toTopOf="@+id/owlVideo" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHorizontalStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHorizontalEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8"
+        />
+
 
     <TextView
         android:id="@+id/owlSays"
@@ -38,27 +48,112 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@id/owlVideo"
+        app:layout_constraintStart_toStartOf="@id/owlVideo"
         app:layout_constraintTop_toBottomOf="@+id/owlVideo"
-        app:layout_constraintVertical_bias="0.062" />
 
+        />
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTextViewsNumbers"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/owlSays"
+        app:layout_constraintStart_toStartOf="@id/guidelineHorizontalStart"
+        app:layout_constraintEnd_toEndOf="@id/guidelineHorizontalEnd"
+        >
+        <!--        tbm poderia ser-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+
+<!--    se quiser aumentar as letras nao aumente width aument o textSize-->
+<!--        se quiser aumentar o espacamento entre os itens use margin-->
+    <TextView
+        android:id="@+id/number1"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/x"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/mathOperator"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/question_mark"
+        android:textAlignment="center"
+        android:textColor="#FF5722"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="@+id/number1"
+        app:layout_constraintStart_toEndOf="@+id/number1"
+        />
+
+    <TextView
+        android:id="@+id/number2"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/x"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/mathOperator"
+        app:layout_constraintTop_toTopOf="@+id/mathOperator"
+
+        />
+<!--    para margens e tamanhos use sempre multiplos de 8-->
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/equal"
+        android:textAlignment="center"
+        android:textColor="#2196F3"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/number2"
+        app:layout_constraintTop_toTopOf="@+id/number2" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/double_question_mark"
+        android:textAlignment="center"
+        android:textSize="24sp"
+
+        app:layout_constraintTop_toTopOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    nao faz diferenca mas mantenha os itens em sequencia facilita a manutencao-->
+    <!--    dei uma margem negativa aqui apenas para vc saber que eh possivel mas nao eh uma boa pratica-->
+
+<!--    evite usarf esse onclick, evite tudo que seja codigo no seu layout, aqui eh so para fazer o desenho-->
+<!--    soh que vc usou a estrutura errada, vc deveria ter feito uma lista ao inves de varios botoes-->
+<!--    tente refatorar isso para um ListView ou um Recycle view vai ser bom para vc aprender a trabalher com -->
+<!--    listas na tela, se quiser seguir no android ou no mobile isso eh importante-->
     <Button
         android:id="@+id/button0"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="6dp"
         android:onClick="sendAnswer"
         android:text="@string/_0"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/owlVideo"
-        app:layout_constraintVertical_bias="0.427" />
+        android:layout_marginStart="-40dp"
+        app:layout_constraintTop_toBottomOf="@id/clTextViewsNumbers"
+        app:layout_constraintStart_toStartOf="@id/guidelineHorizontalStart"
+        app:layout_constraintStart_toEndOf="@id/guidelineHorizontalEnd"
+        />
 
     <Button
         android:id="@+id/button1"
@@ -195,68 +290,5 @@
         app:layout_constraintTop_toBottomOf="@+id/owlVideo"
         app:layout_constraintVertical_bias="0.828" />
 
-    <TextView
-        android:id="@+id/number1"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/x"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/owlSays"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/mathOperator"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/question_mark"
-        android:textAlignment="center"
-        android:textColor="#FF5722"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/number1"
-        app:layout_constraintStart_toEndOf="@+id/number1"
-        app:layout_constraintTop_toTopOf="@+id/number1"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/number2"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/x"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/mathOperator"
-        app:layout_constraintTop_toTopOf="@+id/mathOperator" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="9dp"
-        android:text="@string/equal"
-        android:textAlignment="center"
-        android:textColor="#2196F3"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/number2"
-        app:layout_constraintTop_toTopOf="@+id/number2" />
-
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/double_question_mark"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
