@@ -11,12 +11,9 @@ public abstract class Restriction {
     public Boolean areValidNumbers(Problem problem) {
         if (problem.solution() >= minSolution && problem.solution() <= maxSolution) {
             if (mathOperation == MathOperation.Division) {
-                if (problem.number1() != 0
+                return problem.number1() != 0
                         && problem.number2() != 0
-                        && problem.number1() % problem.number2() == 0) {
-                    return true;
-                }
-                return false;
+                        && problem.number1() % problem.number2() == 0;
             }
             return true;
         }

@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-//aqui vao as regras de negocio que nao tem haver com tela
 public class ProblemUseCase {
 
     private Integer counter = -1;

@@ -15,7 +15,6 @@ import com.etherealapps.professorowlsum0_10.domain.ProblemUseCase;
 import java.util.ArrayList;
 import java.util.List;
 
-// aqui vao suas regras de negocio referente a  visualizacao
 public class ProblemViewModel extends ViewModel {
 
     private final Owl albertOwl;

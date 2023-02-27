@@ -1,10 +1,10 @@
 package com.etherealapps.professorowlsum0_10.data.model;
 
 public class Problem {
-    private Integer _number1;
-    private Integer _number2;
+    private final Integer _number1;
+    private final Integer _number2;
     private Integer _solution;
-    private String _mathOperator;
+    private final String _mathOperator;
     private Boolean _solved;
     private Boolean _hasTried;
 
